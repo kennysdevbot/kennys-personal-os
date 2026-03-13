@@ -85,20 +85,42 @@ CREATE TRIGGER update_kos_notes_updated_at
   EXECUTE FUNCTION update_updated_at_column();
 
 -- Row Level Security (RLS) policies
--- For now: Allow all operations (can tighten later with auth)
-
+-- Enable RLS on all tables
 ALTER TABLE kos_boards ENABLE ROW LEVEL SECURITY;
 ALTER TABLE kos_columns ENABLE ROW LEVEL SECURITY;
 ALTER TABLE kos_cards ENABLE ROW LEVEL SECURITY;
 ALTER TABLE kos_notes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE kos_inbox_items ENABLE ROW LEVEL SECURITY;
 
--- Allow anonymous access (basic policy, tighten later)
-CREATE POLICY "Allow all operations on kos_boards" ON kos_boards FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on kos_columns" ON kos_columns FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on kos_cards" ON kos_cards FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on kos_notes" ON kos_notes FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on kos_inbox_items" ON kos_inbox_items FOR ALL USING (true) WITH CHECK (true);
+-- kos_boards: Allow anonymous (anon role) access for all operations
+CREATE POLICY "anon_select_boards" ON kos_boards FOR SELECT TO anon USING (true);
+CREATE POLICY "anon_insert_boards" ON kos_boards FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_update_boards" ON kos_boards FOR UPDATE TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "anon_delete_boards" ON kos_boards FOR DELETE TO anon USING (true);
+
+-- kos_columns: Allow anonymous (anon role) access for all operations
+CREATE POLICY "anon_select_columns" ON kos_columns FOR SELECT TO anon USING (true);
+CREATE POLICY "anon_insert_columns" ON kos_columns FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_update_columns" ON kos_columns FOR UPDATE TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "anon_delete_columns" ON kos_columns FOR DELETE TO anon USING (true);
+
+-- kos_cards: Allow anonymous (anon role) access for all operations
+CREATE POLICY "anon_select_cards" ON kos_cards FOR SELECT TO anon USING (true);
+CREATE POLICY "anon_insert_cards" ON kos_cards FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_update_cards" ON kos_cards FOR UPDATE TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "anon_delete_cards" ON kos_cards FOR DELETE TO anon USING (true);
+
+-- kos_notes: Allow anonymous (anon role) access for all operations
+CREATE POLICY "anon_select_notes" ON kos_notes FOR SELECT TO anon USING (true);
+CREATE POLICY "anon_insert_notes" ON kos_notes FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_update_notes" ON kos_notes FOR UPDATE TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "anon_delete_notes" ON kos_notes FOR DELETE TO anon USING (true);
+
+-- kos_inbox_items: Allow anonymous (anon role) access for all operations
+CREATE POLICY "anon_select_inbox" ON kos_inbox_items FOR SELECT TO anon USING (true);
+CREATE POLICY "anon_insert_inbox" ON kos_inbox_items FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_update_inbox" ON kos_inbox_items FOR UPDATE TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "anon_delete_inbox" ON kos_inbox_items FOR DELETE TO anon USING (true);
 
 -- Insert default board and columns
 INSERT INTO kos_boards (name) VALUES ('Main Board');
